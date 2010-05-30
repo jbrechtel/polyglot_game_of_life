@@ -28,13 +28,14 @@ class World
 
   def to_s
     @rows.map do |row|
-      row.join("\t")
+      row.join
     end.join("\n")
   end
 
   private
   def neighbors?(cell1, cell2)
-    (1...2).include? distance(*cell_coordinates(cell1), *cell_coordinates(cell2))
+    distance = distance(*cell_coordinates(cell1), *cell_coordinates(cell2))
+    distance >= 1 && distance < 2
   end
 
   def cell_coordinates(cell)
