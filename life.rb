@@ -6,29 +6,28 @@ class Parser
       line.chars.map do |cell_s|
         Cell.new((cell_s == ' ' ? :alive : :dead))
       end
-    end)
+    end.reject {|r| r.count == 0})
   end
 end
 
-dead_cell = Cell.new :dead
-
 world = Parser.world_from %{
-................  ...    ...... . ..
-...............   ..................
-.......... ...............    . . ..
-...   ......  ......... ...  .   ...
-..................  ................
-.........     ......  ..............
-.............     ..................
+................................
+................................
+................................
+   .  .  .   ....   .. ... .....
+   .  .  ... ....   .. ..... ...
+   .  .  .   .    .... ......  .
+................................
+................................
+................................
 }
 
-
-5.times do
+100.times do
+  puts "\e[H\e[2J"
+  puts world
+  sleep(1) unless ARGV[0] == 'f'
   f = Fate.new(world)
   world = World.new(world.rows.map { |row| row.map { |cell| f.of(cell) } })
-  puts "\e[H\e[2J"
-  printf "\r#{world}"
-  sleep(1) unless ARGV[0] == 'f'
 end
 
 

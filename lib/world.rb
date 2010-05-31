@@ -3,6 +3,8 @@ class World
 
   def initialize(rows)
     @rows = rows
+    @max_x = rows.first.count - 1
+    @max_y = rows.count - 1
   end
 
   def neighbors_of(cell)
@@ -34,7 +36,23 @@ class World
 
   private
   def neighbors?(cell1, cell2)
-    distance = distance(*cell_coordinates(cell1), *cell_coordinates(cell2))
+    return false if cell1 == cell2
+    cell1_x, cell1_y = cell_coordinates(cell1)
+    cell2_x, cell2_y = cell_coordinates(cell2)
+
+    if(cell1_x == 0 && cell2_x == @max_x)
+      cell2_x = -1
+    elsif(cell1_x == @max_x && cell2_x == 0)
+      cell1_x = -1
+    end
+
+    if(cell1_y == 0 && cell2_y == @max_y)
+      cell2_y = -1
+    elsif(cell1_y == @max_y && cell2_y == 0)
+      cell1_y = -1
+    end
+
+    distance = distance(cell1_x, cell1_y, cell2_x, cell2_y)
     distance >= 1 && distance < 2
   end
 
