@@ -5,7 +5,7 @@ class Fate
   end
 
   def of(cell)
-    should_live?(cell) ? Cell.new(:alive) : Cell.new(:dead)
+    should_live?(cell) ? Cell.new(:alive, cell.x, cell.y) : Cell.new(:dead, cell.x, cell.y)
   end
 
   private

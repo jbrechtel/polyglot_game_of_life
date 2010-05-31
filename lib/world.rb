@@ -7,21 +7,42 @@ class World
     @max_y = rows.count - 1
   end
 
-  def neighbors_of(cell)
-    @rows.map do |row|
-      row.select do |potential_neighbor|
-        (block_given? ? yield(potential_neighbor) : true) &&
-          neighbors?(cell, potential_neighbor)
+  def cache_coords
+    @rows.each_with_index do |row, y|
+      row.each_with_index do |cell, x|
+        cell.x = x
+        cell.y = y
       end
-    end.flatten
+    end
+  end
+
+  def neighbors_of(cell)
+    neighbors = [[0,1], [1, 0], [1, 1], [0, -1], [-1, 0], [-1, -1], [1,-1], [-1,1]].map do |(x,y)|
+        new_x = cell.x + x
+        new_y = cell.y + y
+        new_x =
+        case new_x
+          when -1 then @max_x
+          when @max_x + 1 then 0
+          else new_x
+        end
+
+        new_y =
+        case new_y
+          when -1 then @max_y
+          when @max_y + 1 then 0
+          else new_y
+        end
+        [new_x,new_y]
+    end.reject {|(x,y)| cell.x == x && cell.y == y}.uniq
+
+    neighbors.map do |(x,y)|
+      @rows[y][x]
+    end.select {|neighbor| (block_given? ? yield(neighbor) : true) }
   end
 
   def live_neighbors_of(cell)
     neighbors_of(cell) {|neighbor| neighbor.alive?}
-  end
-
-  def dead_neighbors_of(cell)
-    neighbors_of(cell) {|neighbor| !neighbor.alive?}
   end
 
   def rows
@@ -57,9 +78,7 @@ class World
   end
 
   def cell_coordinates(cell)
-    x = @rows.detect { |row| row.include? cell }.index(cell)
-    y = @rows.index(@rows.detect { |row| row.include? cell })
-    return x,y
+    return cell.x,cell.y
   end
 
   def distance(x1, y1, x2, y2)
