@@ -31,11 +31,6 @@ class WorldTest < Test::Unit::TestCase
     assert_equal 1, World.new([ [cell], [live_cell] ]).live_neighbors_of(cell).count
   end
 
-  def test_world_knows_about_dead_neighbors
-    cell = Cell.new
-    assert_equal 2, World.new([ [dead_cell, cell, dead_cell] ]).dead_neighbors_of(cell).count
-  end
-
   def test_world_should_wrap_the_inner_horizontal_edge_when_counting_neighbors
     cell = Cell.new
     assert_equal 2, World.new([ [cell, Cell.new, Cell.new] ]).neighbors_of(cell).count
