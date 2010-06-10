@@ -1,0 +1,11 @@
+#!/usr/local/bin/escript
+
+%% -*- erlang -*-
+%%! -smp enable -sname start_life
+
+main([WorldFile]) ->
+  InitialWorld = parser:parse(WorldFile),
+  life:evolve(5,InitialWorld);
+
+main(_) ->
+  io:format("usage: life <initial world file>\n", []).

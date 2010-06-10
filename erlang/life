@@ -1,7 +1,0 @@
-#!/usr/local/bin/escript
-
-%% -*- erlang -*-
-%%! -smp enable -sname factorial -mnesia debug verbose
-
-main([String]) ->
-  

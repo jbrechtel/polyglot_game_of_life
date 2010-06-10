@@ -3,7 +3,12 @@
 -export([evolve/2]).
 
 evolve(Times,OriginalWorld) ->
-  lists:foldl(fun(_, World) -> evolve(World) end,OriginalWorld,lists:seq(0,Times)).
+  WorldPrint = fun(_, World) ->
+      NewWorld = evolve(World),
+      io:format("*",[]),
+      NewWorld end,
+
+  lists:foldl(WorldPrint,OriginalWorld,lists:seq(0,Times)).
 
 evolve(World) ->
   lists:map(fun(Row) -> map_cells({Row, World}) end, World).
