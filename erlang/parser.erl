@@ -16,13 +16,11 @@ get_lines(Lines, IO) ->
     eof         -> Lines
   end.
 
-map_lines([]) -> [];
-map_lines([Head | Tail]) ->
-  [map_line(Head) | map_lines(Tail)].
+map_lines(Lines) ->
+  element(1,lists:mapfoldl(fun(Line, Y) -> { map_line({Line, Y+1}), Y+1 }  end, 0, Lines)).
 
-map_line([]) -> [];
-map_line([Head | Tail]) ->
-  [map_char(Head) | map_line(Tail)].
+map_line({Line, Y}) ->
+  element(1,lists:mapfoldl(fun(Char, X) -> { {map_char(Char), X+1, Y}, X+1 } end, 0, Line)).
 
 map_char(32)  -> alive;
 map_char(46)  -> dead;
