@@ -1,11 +1,11 @@
 -module(life).
 -export([evolve/1]).
--export([evolve/2]).
+-export([evolve/3]).
 
-evolve(Times,OriginalWorld) ->
+evolve(Times,OriginalWorld,Print) ->
   WorldPrint = fun(_, World) ->
       NewWorld = evolve(World),
-      io:format("*",[]),
+      Print(World),
       NewWorld end,
 
   lists:foldl(WorldPrint,OriginalWorld,lists:seq(0,Times)).

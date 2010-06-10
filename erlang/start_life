@@ -4,8 +4,8 @@
 %%! -smp enable -sname start_life
 
 main([WorldFile]) ->
-  InitialWorld = parser:parse(WorldFile),
-  life:evolve(5,InitialWorld);
+  InitialWorld = parser:parse_world(WorldFile),
+  life:evolve(5,InitialWorld, fun(World) -> printer:print_world(World) end);
 
 main(_) ->
   io:format("usage: life <initial world file>\n", []).

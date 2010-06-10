@@ -1,8 +1,8 @@
 -module(parser).
--export([parse/1]).
+-export([parse_world/1]).
 -export([map_lines/1]).
 
-parse(File) ->
+parse_world(File) ->
   { _, IO } = file:open(File,read),
   map_lines(get_lines([], IO)).
 
