@@ -12,7 +12,6 @@ class Fate
   def should_live?(cell)
     if(cell.alive?)
       return true if([2,3].include?(@world.live_neighbors_of(cell).count))
-      return false if(@world.live_neighbors_of(cell).count > 3)
       return false
     else
       return true if(@world.live_neighbors_of(cell).count == 3)
