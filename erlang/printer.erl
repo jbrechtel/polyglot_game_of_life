@@ -2,6 +2,7 @@
 -export([print_world/1]).
 
 print_world(World) ->
+  io:format("\e[H\e[2J",[]),
   lists:foreach(fun(Row) -> print_row(Row) end, World).
 
 print_row(Row) ->
