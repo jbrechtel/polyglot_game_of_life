@@ -8,6 +8,10 @@ class WorldSpec extends Spec with ShouldMatchers {
       it("should create a world full of dead cells") {
         World(1,1).cellAt((0,0)) should be ('dead)
       }
+
+      it("should create cells with proper coordinates") {
+        World(1,2).cellAt((0,1)).coord should equal((0,1))
+      }
     }
 
     describe("bringing a cell to life") {
@@ -22,6 +26,12 @@ class WorldSpec extends Spec with ShouldMatchers {
         val newWorld = world.bear((0,0), (0,1))
         newWorld.cellAt((0,0)) should not be ('dead)
         newWorld.cellAt((0,1)) should not be ('dead)
+      }
+
+      it("should retain cell coordinates when bearing cells") {
+        val world = World(1,2)
+        val newWorld = world.bear((0,1))
+        newWorld.cellAt((0,1)).coord should equal((0,1))
       }
     }
 
