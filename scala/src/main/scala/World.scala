@@ -21,14 +21,15 @@ class World private (val cells: Cells) {
     }
   }
 
-  def bear(coords: Coordinate*) = map(true, coords: _*)
-  def kill(coords: Coordinate*) = map(false, coords: _*)
+  def bear(coords: Coordinate*) = changeCells(coords: _*) { cell => cell.bear }
+  def kill(coords: Coordinate*) = changeCells(coords: _*) { cell => cell.kill }
 
-  def map(living: Boolean, coords: Coordinate*) = {
+  def changeCells(coords: Coordinate*)(changeFun: Cell => Cell) = {
     val finalCells = coords.foldLeft(cells)((newCells, coord) => {
       coord match {
         case (x,y) => {
-          val newRow = newCells(x).updated(y, new Cell(living, (x,y)))
+          val newCell = changeFun(cellAt(coord))
+          val newRow = newCells(x).updated(y, newCell)
           newCells.updated(x, newRow)
         }
       }
