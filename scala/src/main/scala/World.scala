@@ -1,5 +1,6 @@
 package gol
 
+
 object World {
   def apply(width: Int, height: Int) = {
     val cells = for(x <- (1 to width))
@@ -11,30 +12,22 @@ object World {
 }
 
 class World private (val cells: IndexedSeq[IndexedSeq[Cell]]) {
-  def cellAt(coords: (Int,Int)) = {
-    coords match {
+  type Coordinate = (Int,Int)
+
+  def cellAt(coord: Coordinate) = {
+    coord match {
       case (x,y) => cells(x)(y)
     }
   }
 
-  def bear(coords: (Int,Int)*) = {
+  def bear(coords: Coordinate*) = map(true, coords: _*)
+  def kill(coords: Coordinate*) = map(false, coords: _*)
+
+  def map(living: Boolean, coords: Coordinate*) = {
     val finalCells = coords.foldLeft(cells)((newCells, coord) => {
       coord match {
         case (x,y) => {
-          val newRow = newCells(x).updated(y, new Cell(true))
-          newCells.updated(x, newRow)
-        }
-      }
-    })
-
-    new World(finalCells)
-  }
-
-  def kill(coords: (Int, Int)*) = {
-    val finalCells = coords.foldLeft(cells)((newCells, coord) => {
-      coord match {
-        case (x,y) => {
-          val newRow = newCells(x).updated(y, new Cell(false))
+          val newRow = newCells(x).updated(y, new Cell(living))
           newCells.updated(x, newRow)
         }
       }
