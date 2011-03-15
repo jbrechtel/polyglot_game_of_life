@@ -13,4 +13,3 @@ class CellSpec extends Spec with ShouldMatchers {
     }
   }
 }
-
