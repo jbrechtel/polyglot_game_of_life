@@ -2,8 +2,10 @@ package gol
 
 import gol.TypeAliases._
 
-case class Cell(living: Boolean, coord: Coordinate) {
-  def dead = !living
-  def bear = new Cell(true, coord)
-  def kill = new Cell(false, coord)
+class Cell(val living: Boolean, val coord: Coordinate) {
+  var isLiving = living;
+  def dead = !isLiving
+  def alive = isLiving
+  def live() { isLiving = true }
+  def kill() { isLiving = false }
 }

@@ -15,23 +15,29 @@ class CellSpec extends Spec with ShouldMatchers {
 
   describe("bearing") {
     it("should create a new cell that is alive") {
-      new Cell(false, (0,0)).bear should be ('living)
+      val cell = new Cell(false, (0,0))
+      cell.live()
+      cell should be ('alive)
     }
 
     it("should retain its coordinates") {
-      val original = new Cell(false, (0,2))
-      original.bear.coord should equal(original.coord)
+      val cell = new Cell(false, (0,2))
+      cell.live()
+      cell.coord should equal((0,2))
     }
   }
 
-  describe("killing") {
-    it("should create a new cell that is dead") {
-      new Cell(true, (0,0)).kill should be ('dead)
+  describe("killing a cell") {
+    it("should cause a cell to be dead") {
+      val cell = new Cell(true, (0,0))
+      cell.kill()
+      cell should be ('dead)
     }
 
     it("should retain its coordinates") {
-      val original = new Cell(true, (0,2))
-      original.kill.coord should equal(original.coord)
+      val cell = new Cell(true, (0,2))
+      cell.kill()
+      cell.coord should equal((0,2))
     }
   }
 }
