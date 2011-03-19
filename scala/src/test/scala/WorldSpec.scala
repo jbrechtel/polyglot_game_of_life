@@ -12,6 +12,12 @@ class WorldSpec extends Spec with ShouldMatchers {
       it("should create cells with proper coordinates") {
         World(1,2).cellAt((0,1)).coord should equal((0,1))
       }
+
+      it("should create a world with live cells at the specified locations") {
+        val world = World(3,3, liveCoords=List((0,1),(1,2)))
+        world.cellAt((0,1)) should be ('living)
+        world.cellAt((1,2)) should be ('living)
+      }
     }
 
     describe("bringing a cell to life") {
